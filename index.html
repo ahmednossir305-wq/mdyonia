@@ -303,7 +303,7 @@ tfoot td{font-weight:600;border-top:3px double var(--ink);border-bottom:0}
         else if(h==='كوبونات')map.coupons=i;
         else if(h==='خصمالاعتمادات')map.discount=i;
         else if(h==='الصافي')map.net=i;
-        else if(h==='التحميل')map.load=i;
+        else if(h==='التحميل'||h==='حالهالتحميل'||h==='ملاحظات')map.load=i;
       });
       if(map.code==null||map.name==null||map.total==null)continue;
       var label=null;
@@ -321,7 +321,8 @@ tfoot td{font-weight:600;border-top:3px double var(--ink);border-bottom:0}
         var g=function(i){if(i==null)return 0;var v=parseFloat(row[i]);return isFinite(v)?round2(v):0};
         var total=g(map.total),open=g(map.open),coupons=g(map.coupons),discount=g(map.discount);
         var net=(map.net!=null&&typeof row[map.net]==='number')?round2(row[map.net]):round2(total-open-coupons-discount);
-        var ld=(map.load!=null&&row[map.load])?String(row[map.load]).replace(/\s+/g,' ').trim():'مسموح';
+        var ldRaw=(map.load!=null&&row[map.load])?String(row[map.load]).replace(/\s+/g,' ').trim():'';
+        var ld=ldRaw.indexOf('ممنوع')!==-1?'ممنوع من التحميل':'مسموح';
         if(seen[code]){warnings.push('الكود '+code+' مكرر، اتاخد أول صف بس');continue}
         seen[code]=1;
         reps.push({code:code,name:nm,open:open,total:total,coupons:coupons,discount:discount,net:net,load:ld});
